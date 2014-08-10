@@ -44,7 +44,7 @@
 						<p class="article" style="margin-top: 5px;">
 							<span ng-bind-html-unsafe="dialog.content"></span><br /><br />
 							<span ng-show="dialog.faqs"> <b>其他相关问题:</b> <a
-								href="#" ng-repeat="faq in dialog.faqs" style="color:black" ng-click="refine(faq.question)"><br /> {{faq.question}}</a>
+								href="#" ng-repeat="faq in dialog.faqs" ng-click="refine(faq.question)"><br /> {{faq.question}}</a>
 							</span>
 						</p>
 					</div>
@@ -64,6 +64,7 @@
 	<script type="text/javascript" src="resources/js/bootstrap.js"></script>
 	<script type="text/javascript" src="resources/js/angular.min.js"></script>
 	<script type="text/javascript" src="resources/js/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="resources/js/pagination.min.js"></script>
 	<script type="text/javascript" src="resources/js/home.js"></script>
 </body>
 </html>

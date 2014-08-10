@@ -7,6 +7,7 @@ import javax.servlet.Filter;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,7 +15,11 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.solr.server.support.MulticoreSolrServerFactory;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -23,6 +28,20 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackages = { "demo" })
 @EnableAutoConfiguration
 public class Application extends SpringBootServletInitializer {
+	@Configuration
+	@Order(1)
+	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+		protected void configure(HttpSecurity http) throws Exception {
+			http.authorizeRequests().antMatchers("/resources/**", "/", "/bot/**").permitAll().antMatchers("/admin/**")
+					.hasRole("ADMIN").anyRequest().authenticated().and().formLogin();
+		}
+
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication().withUser("admin").password("password").roles("USER", "ADMIN");
+	}
 
 	@Bean
 	public Filter encodingFilter() {
@@ -47,14 +66,12 @@ public class Application extends SpringBootServletInitializer {
 	@Bean
 	public MulticoreSolrServerFactory solrServerFactory(SolrServer solrServer) {
 		List<String> coreList = Arrays.asList("collection1");
-		MulticoreSolrServerFactory solrFactory = new MulticoreSolrServerFactory(
-				solrServer, coreList);
+		MulticoreSolrServerFactory solrFactory = new MulticoreSolrServerFactory(solrServer, coreList);
 		return solrFactory;
 	}
 
 	@Override
-	protected SpringApplicationBuilder configure(
-			SpringApplicationBuilder application) {
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(Application.class);
 	}
 

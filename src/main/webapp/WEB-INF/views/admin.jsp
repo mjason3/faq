@@ -21,30 +21,69 @@
 
 <!-- Custom styles for this template -->
 <link href="resources/css/dashboard.css" rel="stylesheet">
+
+<base href="<c:url value="/"/>">
 </head>
-<body ng-controller="BotMngmtCtrl">
-	<div class="modal-dialog  modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">
-					<span class="label label-default">自在客</span>自动问答机器人
-				</h4>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href=".">bot</a>
 			</div>
-			<div class="modal-body" style="min-height: 400px">
-				<label>问题</label>
-				<textarea style="margin-bottom:10px" ng-model="question" class="form-control" rows="3" ></textarea>
-				<label>答案</label>
-				<textarea style="margin-bottom:20px" ng-model="answer" class="form-control" rows="10" ></textarea>
-				<button ng-click="submit()" class="btn btn-default">提交</button>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/admin">全部问题</a></li>
+					<li><a href="/admin/addFAQ">添加问题</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="logout">退出登录</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>
-
+	<div class="container-fluid" ng-controller="BotMngmtCtrl">
+		<div class="row placeholders">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>问题</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in items">
+						<td>{{$index}}</td>
+						<td>{{item.question}}</td>
+						<td><a> <span class="glyphicon glyphicon-edit"></span>
+						</a> <a> <span class="glyphicon glyphicon-trash"></span>
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<pagination ng-show="totalItemsCount" total-items="totalItemsCount"
+				items-per-page="pageSize" ng-model="currentPage"
+				ng-change="pageChanged()" max-size="10" previous-text="后退"
+				next-text="前进" first-text="首页" last-text="末页" rotate="false"
+				class="pagination-sm" boundary-links="true"></pagination>
+		</div>
+	</div>
 	<!-- Bootstrap core JavaScript ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/bootstrap.js"></script>
 	<script type="text/javascript" src="resources/js/angular.min.js"></script>
+	<script type="text/javascript"
+		src="resources/js/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="resources/js/pagination.min.js"></script>
 	<script type="text/javascript" src="resources/js/home.js"></script>
 </body>
 </html>

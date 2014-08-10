@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import models.FAQ;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.data.solr.core.query.SimpleStringCriteria;
 import org.springframework.data.solr.core.query.result.ScoredPage;
 import org.springframework.data.solr.server.support.MulticoreSolrServerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,22 +31,33 @@ public class BotController {
 	@Autowired
 	private MulticoreSolrServerFactory solrServerFactory;
 
+	@RequestMapping(value = "faq", method = RequestMethod.DELETE)
+	public int deleteFaq(@RequestParam String id) {
+
+		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
+		UpdateResponse resp = solrTemplate.deleteById(id);
+		return resp.getStatus();
+	}
+
 	@RequestMapping(value = "/ask", method = RequestMethod.GET)
-	public ResponseEntity<List<FAQ>> ask(@RequestParam String q) {
-		SolrTemplate solrTemplate = new SolrTemplate(
-				solrServerFactory.getSolrServer("collection1"));
-		Criteria criteria = new SimpleStringCriteria("question:" + q + " ")
-				.or(new SimpleStringCriteria("answer:" + q));
+	public ResponseEntity<List<FAQ>> ask(@RequestParam String q, @RequestParam(defaultValue = "5") int pageSize,
+			@RequestParam int page) {
+		if (StringUtils.isEmpty(q)) {
+			q = "*:*";
+		}
+		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
+		Criteria criteria = new SimpleStringCriteria(q);
 		System.out.println(criteria.toString());
-		SimpleQuery solrExpression = new SimpleQuery(criteria)
-				.setPageRequest(new PageRequest(0, 10));
+		SimpleQuery solrExpression = new SimpleQuery(criteria).setPageRequest(new PageRequest(page, pageSize));
 		System.out.println(solrExpression.toString());
-		ScoredPage<FAQ> faqPage = solrTemplate.queryForPage(solrExpression,
-				FAQ.class);
+		ScoredPage<FAQ> faqPage = solrTemplate.queryForPage(solrExpression, FAQ.class);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("TotalPageCount", String.valueOf(faqPage.getTotalPages()));
+		headers.add("TotalItemsCount", String.valueOf(faqPage.getTotalElements()));
+		headers.add("CurrentPage", String.valueOf(page));
+		headers.add("PageSize", String.valueOf(pageSize));
 		if (faqPage.hasContent()) {
-			int end = faqPage.getContent().size() > 5 ? 5 : faqPage.getContent().size();
-			return new ResponseEntity<List<FAQ>>(faqPage.getContent().subList(
-					0, end), HttpStatus.OK);
+			return new ResponseEntity<List<FAQ>>(faqPage.getContent(), headers, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<List<FAQ>>(HttpStatus.NOT_FOUND);
 		}
@@ -52,8 +65,7 @@ public class BotController {
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<FAQ> add(@RequestBody FAQ faq) {
-		SolrTemplate solrTemplate = new SolrTemplate(
-				solrServerFactory.getSolrServer("collection1"));
+		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
 		SolrInputDocument doc = new SolrInputDocument();
 		doc.setField("question", faq.getQuestion());
 		doc.setField("answer", faq.getAnswer());

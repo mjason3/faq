@@ -11,18 +11,8 @@ public class HomeController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/addFAQ")
-	public String addFAQ() {
-		return "addFAQ";
-	}
-
-	@RequestMapping(value = "/admin")
-	public String admin() {
-		return "admin";
-	}
-
-	@RequestMapping(value = "/demo")
-	public String demo() {
-		return "demo";
+	@RequestMapping(value = "/login")
+	public String login() {
+		return "login";
 	}
 }

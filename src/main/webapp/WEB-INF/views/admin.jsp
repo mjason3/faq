@@ -11,6 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<meta name="_csrf" content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <base href="<c:url value="/"/>">
 
 <title>ChatBot</title>
@@ -22,7 +25,6 @@
 <!-- Custom styles for this template -->
 <link href="resources/css/dashboard.css" rel="stylesheet">
 
-<base href="<c:url value="/"/>">
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -39,10 +41,10 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="/admin">全部问题</a></li>
-					<li><a href="/admin/addFAQ">添加问题</a></li>
+					<li><a href="/admin/editFAQ">添加问题</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="logout">退出登录</a></li>
+					<li><a href="/logout">退出登录</a></li>
 				</ul>
 			</div>
 		</div>
@@ -61,8 +63,9 @@
 					<tr ng-repeat="item in items">
 						<td>{{$index}}</td>
 						<td>{{item.question}}</td>
-						<td><a> <span class="glyphicon glyphicon-edit"></span>
-						</a> <a> <span class="glyphicon glyphicon-trash"></span>
+						<td><a href="/admin/editFAQ?id={{item.id}}"> <span class="glyphicon glyphicon-edit"></span>
+						</a> <a ng-click="deleteFaq($index, item.id)"> <span
+								class="glyphicon glyphicon-trash"></span>
 						</a></td>
 					</tr>
 				</tbody>

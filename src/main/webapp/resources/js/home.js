@@ -49,7 +49,21 @@ angular.module('ChatBot', [ 'ngSanitize', 'ui.bootstrap.pagination' ]).config(
 		'BotMngmtCtrl',
 		function($scope, $http) {
 			$scope.keyword = "";
+			$scope.question = document.getElementById("question") ? document.getElementById("question").value:"";
+			$scope.sId = document.getElementById("sId") ? document.getElementById("sId").value : "";
 			$scope.currentPage = 1;
+
+			$scope.deleteFaq=function(index, sId){
+				if(confirm('确定要删除 #'+index+' 吗？')){
+					var token = $("meta[name='_csrf']").attr("content");
+					var header = $("meta[name='_csrf_header']").attr("content");
+					var headers = JSON.parse('{"'+header+'": "'+token+'"}')
+					$http.delete('./admin/faq?id='+encodeURIComponent(sId), {headers: headers}).success(function(data){
+						console.log(data);
+						window.location="./admin";
+					});
+				}
+			};
 			$scope.pageChanged = function() {
 				$http.get(
 						'./bot/ask?q=' + encodeURIComponent($scope.keyword) + '&pageSize=20&page=' + ($scope.currentPage - 1))
@@ -60,15 +74,20 @@ angular.module('ChatBot', [ 'ngSanitize', 'ui.bootstrap.pagination' ]).config(
 							$scope.pageSize = headers('PageSize');
 						});
 			};
-
+			
 			$scope.pageChanged();
 			$scope.submit = function() {
 				$scope.answer = UM.getEditor('myEditor').getContent();
 				if ($scope.question.trim().length > 0 && $scope.answer.trim().length > 0) {
-					$http.post("./bot", {
+					var token = $("meta[name='_csrf']").attr("content");
+					var header = $("meta[name='_csrf_header']").attr("content");
+					var headers = JSON.parse('{"'+header+'": "'+token+'"}')
+					$http.post("./admin/faq", {
+						id : $scope.sId,
 						question : $scope.question,
 						answer : $scope.answer
-					}).success(function(data) {
+					},{headers: headers}).success(function(data) {
+						$scope.id="";
 						$scope.question = "";
 						$scope.answer = "";
 						UM.getEditor('myEditor').setContent('');

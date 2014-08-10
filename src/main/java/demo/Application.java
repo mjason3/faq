@@ -20,6 +20,7 @@ import org.springframework.data.solr.server.support.MulticoreSolrServerFactory;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -34,6 +35,7 @@ public class Application extends SpringBootServletInitializer {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.authorizeRequests().antMatchers("/resources/**", "/", "/bot/**").permitAll().antMatchers("/admin/**")
 					.hasRole("ADMIN").anyRequest().authenticated().and().formLogin();
+			http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
 		}
 
 	}

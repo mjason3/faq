@@ -11,6 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<meta name="_csrf" content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <base href="<c:url value="/"/>">
 
 <title>ChatBot</title>
@@ -40,10 +43,10 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="/admin">全部问题</a></li>
-					<li class="active"><a href="/admin/addFAQ">添加问题</a></li>
+					<li class="active"><a href="/admin/editFAQ">编辑问题</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="logout">退出登录</a></li>
+					<li><a href="/logout">退出登录</a></li>
 				</ul>
 			</div>
 		</div>
@@ -53,18 +56,16 @@
 			<div class="modal-dialog  modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">
-							<span class="label label-default">自在客</span>自动问答机器人
-						</h4>
+						<input type="hidden" id="sId" value="${sId }"> <label>问题</label>
+						<input type="hidden" id="question" value="${question }"> <input
+							type="text" style="margin-bottom: 10px" ng-model="question"
+							class="form-control"></input>
 					</div>
 					<div class="modal-body" style="min-height: 400px">
-						<label>问题</label>
-						<textarea style="margin-bottom: 10px" ng-model="question"
-							class="form-control" rows="3"></textarea>
+
 						<label>答案</label>
 						<script type="text/plain" id="myEditor"
-							style="width: 100%; height: 240px;">
-				</script>
+							style="width: 100%; height: 240px;">${answer}</script>
 						<button ng-click="submit()" class="btn btn-default">提交</button>
 					</div>
 				</div>

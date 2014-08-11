@@ -35,14 +35,14 @@ angular.module('ChatBot', [ 'ngSanitize', 'ui.bootstrap.pagination' ]).config(
 			});
 		}
 	};
-	$scope.refine = function(question) {
-		$http.get('./bot/ask?q=' + encodeURIComponent("question:" + question + " or answer:" + question) + '&pageSize=5&page=0').success(function(data) {
+	$scope.refine = function(id) {
+		$http.get('./bot/ask?q=' + encodeURIComponent("id:" + id) + '&pageSize=5&page=0').success(function(data) {
 			$scope.dialogs.push({
 				'owner' : 'bot',
 				'content' : data[0].answer,
 				'faqs' : data.slice(1, data.length)
-			})
-			$scope.question = ''
+			});
+			$scope.question = '';
 		});
 	}
 }).controller(

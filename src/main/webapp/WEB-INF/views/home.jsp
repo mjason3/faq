@@ -46,7 +46,7 @@
 							<span ng-show="dialog.faqs"> 
 								<br /> <br /> <b>其他相关问题:</b> <a
 								href="#" ng-repeat="faq in dialog.faqs"
-								ng-click="refine(faq.question)"><br /> {{faq.question}}</a>
+								ng-click="refine(faq.id)"><br /> {{faq.question}}</a>
 							</span>
 						</p>
 					</div>

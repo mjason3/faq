@@ -41,7 +41,7 @@ public class AdminController {
 		}
 		return "editFAQ";
 	}
-
+	
 	@RequestMapping(value = "")
 	public String admin() {
 		return "admin";

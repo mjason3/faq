@@ -16,7 +16,7 @@
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <base href="<c:url value="/"/>">
 
-<title>ChatBot</title>
+<title>ChatBot管理页面</title>
 
 <!-- Bootstrap core CSS -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,8 @@
 					<tr ng-repeat="item in items">
 						<td>{{$index}}</td>
 						<td>{{item.question}}</td>
-						<td><a href="/admin/editFAQ?id={{item.id}}"> <span class="glyphicon glyphicon-edit"></span>
+						<td><a href="/admin/editFAQ?id={{item.id}}"> <span
+								class="glyphicon glyphicon-edit"></span>
 						</a> <a ng-click="deleteFaq($index, item.id)"> <span
 								class="glyphicon glyphicon-trash"></span>
 						</a></td>

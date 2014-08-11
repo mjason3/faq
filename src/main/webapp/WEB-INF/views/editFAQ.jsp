@@ -16,7 +16,7 @@
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <base href="<c:url value="/"/>">
 
-<title>ChatBot</title>
+<title>ChatBot管理页面</title>
 
 <!-- Bootstrap core CSS -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,6 @@
 <link href="resources/css/dashboard.css" rel="stylesheet">
 <link href="resources/css/themes/default/css/umeditor.css"
 	type="text/css" rel="stylesheet">
-<base href="<c:url value="/"/>">
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">

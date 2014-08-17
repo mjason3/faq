@@ -48,18 +48,26 @@ angular.module('ChatBot', [ 'ngSanitize', 'ui.bootstrap.pagination' ])
 			$scope.ask();
 		}
 		$scope.ask = function() {
-			$scope.dialogs.push({
-				'owner' : 'human',
-				'content' : $scope.question
-			});
-			if ($scope.question != '') {
+			console.log($scope.question)
+			if ($scope.question !== "") {
+				$scope.dialogs.push({
+					'owner' : 'human',
+					'content' : $scope.question
+				});
 				$http.get('./bot/ask?page=0&pageSize=5&q=' + encodeURIComponent("question:"+$scope.question+" or answer:"+$scope.question)).success(function(data) {
+					$scope.question = '';
 					$scope.dialogs.push({
 						'owner' : 'bot',
 						'content' : data[0].answer,
 						'faqs' : data.slice(1, data.length)
 					})
+				}).error(function(status){
 					$scope.question = '';
+					$scope.dialogs.push({
+						'owner' : 'bot',
+						'content' : '没有找到答案，请打电话联系我们客服吧',
+						'faqs' : []
+					})
 				});
 			}
 		};

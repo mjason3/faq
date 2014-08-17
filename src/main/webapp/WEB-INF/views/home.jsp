@@ -31,12 +31,13 @@
 				</h4>
 			</div>
 			<div class="modal-body bubble" id="scroll" style="height: 400px;overflow: scroll;">
-				<div
-					ng-repeat="dialog in dialogs.slice(dialogs.length-5<0?0:dialogs.length-30, dialogs.length)" on-last-repeat>
-					<div class="label"
-						ng-class="{false:'label-default bot',true:'label-primary'}[dialog.owner == 'bot']">{{dialog.owner}}
-						:</div>
-					<br />
+				<div ng-repeat="dialog in dialogs.slice(dialogs.length-5<0?0:dialogs.length-30, dialogs.length)" on-last-repeat>
+					<div ng-show="dialog.owner == 'bot'">
+						<img src="http://pages.zizaike.com/a/img/newhomepages/Logo.png">
+					</div>
+					<div ng-show="dialog.owner != 'bot'"  style="text-align:right">
+						<img src="./resources/img/avatar.jpg" style="width:60px;height:60px">
+					</div>
 					<div class="demo clearfix"
 						ng-class="{false:'fr'}[dialog.owner=='bot']">
 						<span class="triangle"
@@ -53,9 +54,14 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<input style="text-align: left; width: 90%; display: inline"
-					type="text" ng-model="question" ng-keypress="enter($event)">
-				<button type="button" class="btn btn-primary" ng-click="ask()">发送</button>
+			<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<div class="col-sm-11">
+					<textarea class="form-control" style="height:80px"  ng-model="question" ng-keypress="enter($event)"></textarea>
+				</div>
+				<button type="button" style="height:80px" class="btn btn-primary col-sm-1" ng-click="ask()">发送</button>
+				</div>
+			</form>
 			</div>
 		</div>
 	</div>

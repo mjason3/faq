@@ -50,35 +50,31 @@
 		</div>
 	</div>
 	<div class="container-fluid" ng-controller="BotMngmtCtrl">
-		<div class="row placeholders">
-			<table class="table table-hover">
+		<div class="row">
+			<table class="table table-hover" style="margin:20px">
 				<thead>
 					<tr>
-						<th>#</th>
-						<th>问题</th>
 						<th>操作</th>
+						<th>问题</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items">
-						<td>{{$index}}</td>
-						<td>{{item.question}}</td>
 						<td><a href="/admin/editFAQ?id={{item.id}}"> <span
 								class="glyphicon glyphicon-edit"></span>
 						</a> <a ng-click="deleteFaq($index, item.id)"> <span
 								class="glyphicon glyphicon-trash"></span>
 						</a></td>
+						<td>{{item.question|cut:false:150}}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="row">
-			<pagination ng-show="totalItemsCount" total-items="totalItemsCount"
-				items-per-page="pageSize" ng-model="currentPage"
-				ng-change="pageChanged()" max-size="10" previous-text="后退"
-				next-text="前进" first-text="首页" last-text="末页" rotate="false"
-				class="pagination-sm" boundary-links="true"></pagination>
-		</div>
+		<pagination ng-show="totalItemsCount" total-items="totalItemsCount"
+			items-per-page="pageSize" ng-model="currentPage"
+			ng-change="pageChanged()" max-size="10" previous-text="后退"
+			next-text="前进" first-text="首页" last-text="末页" rotate="false"
+			class="pagination-sm" boundary-links="true"></pagination>
 	</div>
 	<!-- Bootstrap core JavaScript ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

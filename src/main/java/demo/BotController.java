@@ -35,7 +35,6 @@ public class BotController {
 		}
 		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
 		Criteria criteria = new SimpleStringCriteria(q);
-		System.out.println(criteria.toString());
 		SimpleQuery solrExpression = new SimpleQuery(criteria).setPageRequest(new PageRequest(page, pageSize));
 		System.out.println(solrExpression.toString());
 		ScoredPage<FAQ> faqPage = solrTemplate.queryForPage(solrExpression, FAQ.class);

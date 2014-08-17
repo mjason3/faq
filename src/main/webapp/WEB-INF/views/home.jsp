@@ -30,9 +30,9 @@
 					<span class="label label-default">自在客</span>自动问答机器人
 				</h4>
 			</div>
-			<div class="modal-body bubble" style="min-height: 400px">
-				<div style="padding-bottom: 5px"
-					ng-repeat="dialog in dialogs.slice(dialogs.length-5<0?0:dialogs.length-3, dialogs.length)">
+			<div class="modal-body bubble" id="scroll" style="height: 400px;overflow: scroll;">
+				<div
+					ng-repeat="dialog in dialogs.slice(dialogs.length-5<0?0:dialogs.length-30, dialogs.length)" on-last-repeat>
 					<div class="label"
 						ng-class="{false:'label-default bot',true:'label-primary'}[dialog.owner == 'bot']">{{dialog.owner}}
 						:</div>
@@ -69,5 +69,8 @@
 		src="resources/js/angular-sanitize.min.js"></script>
 	<script type="text/javascript" src="resources/js/pagination.min.js"></script>
 	<script type="text/javascript" src="resources/js/home.js"></script>
+	<script>
+		$('.modal-body').scrollspy({ target: '#chat_container' })
+	</script>
 </body>
 </html>

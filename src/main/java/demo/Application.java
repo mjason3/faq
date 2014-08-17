@@ -8,6 +8,7 @@ import javax.servlet.Filter;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -37,7 +38,6 @@ public class Application extends SpringBootServletInitializer {
 					.hasRole("ADMIN").anyRequest().authenticated().and().formLogin();
 			http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
 		}
-
 	}
 
 	@Autowired
@@ -60,8 +60,8 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public SolrServer solrServer() {
-		SolrServer solrServer = new HttpSolrServer("http://localhost:8983/solr");
+	public SolrServer solrServer(@Value("${solr.url}") String solrURL) {
+		SolrServer solrServer = new HttpSolrServer(solrURL);
 		return solrServer;
 	}
 

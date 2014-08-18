@@ -54,14 +54,14 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-			<form class="form-horizontal" role="form">
-			<div class="form-group">
-				<div class="col-sm-11">
-					<textarea class="form-control" style="height:80px"  ng-model="question" ng-keypress="enter($event)"></textarea>
-				</div>
-				<button type="button" style="height:80px" class="btn btn-primary col-sm-1" ng-click="ask()">发送</button>
-				</div>
-			</form>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<div class="col-sm-11">
+							<textarea class="form-control" style="height:80px"  ng-model="question" ng-keypress="enter($event)"></textarea>
+						</div>
+						<button type="button" style="height:80px;" class="btn btn-primary col-sm-1" ng-click="ask()">发送</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

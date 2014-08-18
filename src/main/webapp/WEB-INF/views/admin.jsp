@@ -36,7 +36,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href=".">bot</a>
+				<a class="" href="."><img alt="自在客" style="width:45px;height:45px;margin:3px 10px 0 0" src="http://pages.zizaike.com/a/img/newhomepages/Logo.png"></a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">

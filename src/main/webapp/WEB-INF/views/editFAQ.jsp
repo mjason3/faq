@@ -65,7 +65,7 @@
 						<label>答案</label>
 						<script type="text/plain" id="myEditor"
 							style="width: 100%; height: 240px;">${answer}</script>
-						<button ng-click="submit()" class="btn btn-default">提交</button>
+						<button ng-click="submit()" class="btn btn-primary">提交</button>
 					</div>
 				</div>
 			</div>

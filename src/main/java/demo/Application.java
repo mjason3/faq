@@ -60,8 +60,9 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public MulticoreSolrServerFactory solrServerFactory(SolrServer solrServer) {
-		List<String> coreList = Arrays.asList("collection1");
+	public MulticoreSolrServerFactory solrServerFactory(SolrServer solrServer,
+			@Value("${solr.collection}") String solrCollection) {
+		List<String> coreList = Arrays.asList(solrCollection);
 		MulticoreSolrServerFactory solrFactory = new MulticoreSolrServerFactory(solrServer, coreList);
 		return solrFactory;
 	}

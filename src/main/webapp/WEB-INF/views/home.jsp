@@ -13,7 +13,7 @@
 <meta name="author" content="">
 <base href="<c:url value="/"/>">
 
-<title>ChatBot</title>
+<title>自在客客服</title>
 
 <!-- Bootstrap core CSS -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">

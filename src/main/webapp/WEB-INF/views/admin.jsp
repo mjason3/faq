@@ -40,11 +40,11 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/admin">全部问题</a></li>
-					<li><a href="/admin/editFAQ">添加问题</a></li>
+					<li class="active"><a href="./admin">全部问题</a></li>
+					<li><a href="./admin/editFAQ">添加问题</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/logout">退出登录</a></li>
+					<li><a href="./logout">退出登录</a></li>
 				</ul>
 			</div>
 		</div>

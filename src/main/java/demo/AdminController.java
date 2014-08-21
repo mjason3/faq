@@ -7,6 +7,7 @@ import models.FAQ;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.data.solr.core.query.SimpleStringCriteria;
@@ -27,11 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AdminController {
 	@Autowired
 	private MulticoreSolrServerFactory solrServerFactory;
+	@Value("${solr.collection}")
+	private String solrCollection;
 
 	@RequestMapping(value = "/editFAQ")
 	public String editFAQ(@RequestParam(required = false) String id, Model model) {
 		if (!StringUtils.isEmpty(id)) {
-			SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
+			SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer(solrCollection));
 			FAQ faq = solrTemplate.queryForObject(new SimpleQuery(new SimpleStringCriteria("id:" + id)), FAQ.class);
 			if (faq != null) {
 				model.addAttribute("question", faq.getQuestion());

@@ -60,7 +60,7 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items">
-						<td><a href="/admin/editFAQ?id={{item.id}}"> <span
+						<td><a href="./admin/editFAQ?id={{item.id}}"> <span
 								class="glyphicon glyphicon-edit"></span>
 						</a> <a ng-click="deleteFaq($index, item.id)"> <span
 								class="glyphicon glyphicon-trash"></span>

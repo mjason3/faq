@@ -6,6 +6,7 @@ import models.FAQ;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BotController {
 	@Autowired
 	private MulticoreSolrServerFactory solrServerFactory;
+	@Value("${solr.collection}")
+	private String solrCollection;
 
 	@RequestMapping(value = "/ask", method = RequestMethod.GET)
 	public ResponseEntity<List<FAQ>> ask(@RequestParam String q, @RequestParam(defaultValue = "5") int pageSize,
@@ -33,7 +36,7 @@ public class BotController {
 		if (StringUtils.isEmpty(q)) {
 			q = "*:*";
 		}
-		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
+		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer(solrCollection));
 		Criteria criteria = new SimpleStringCriteria(q);
 		SimpleQuery solrExpression = new SimpleQuery(criteria).setPageRequest(new PageRequest(page, pageSize));
 		System.out.println(solrExpression.toString());

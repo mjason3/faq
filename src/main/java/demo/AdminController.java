@@ -53,7 +53,7 @@ public class AdminController {
 	@RequestMapping(value = "/faq", method = RequestMethod.DELETE)
 	@ResponseBody
 	public int deleteFaq(@RequestParam String id) {
-		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
+		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer(solrCollection));
 		UpdateResponse resp = solrTemplate.deleteById(id);
 		solrTemplate.commit();
 		return resp.getStatus();
@@ -61,7 +61,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/faq", method = RequestMethod.POST)
 	public ResponseEntity<FAQ> add(@RequestBody FAQ faq) {
-		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer("collection1"));
+		SolrTemplate solrTemplate = new SolrTemplate(solrServerFactory.getSolrServer(solrCollection));
 		SolrInputDocument doc = new SolrInputDocument();
 		doc.setField("question", faq.getQuestion());
 		doc.setField("answer", faq.getAnswer());
